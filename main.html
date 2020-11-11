@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>검 강화하기</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        input {
+            text-align: center;
+        }
+
+        .in {
+            background-color: transparent;
+            border: none;
+            color: black;
+        }
+
+        #title {
+            text-align: center;
+            margin: 20px 0 0 0;
+            color: red;
+        }
+
+        .img {
+            text-align: center;
+        }
+
+        #Sword {
+            font-size: 2.5rem;
+        }
+
+        .SwordDiv {
+            text-align: center;
+        }
+
+        .UpgradeLog {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .UpgradeBtn {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #Money {
+            position: fixed;
+            bottom: 0%;
+            right: 82%;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">검 강화하기!!</h1>
+    <div class="img">
+        <img src="./sword/1강 부러진 단검.png">
+    </div>
+    <div class="SwordDiv">
+        <input type="text" class="in" id="Sword" value="+0 공기" disabled>
+    </div>
+    <div class="UpgradeLog">
+        <input type="text" class="in" id="SwordUpgradeLog" value="-" disabled>
+    </div>
+    <input type="text" class="in" id="Percent" value="강화 확률 | 100%" disabled>
+    <div class="UpgradeBtn">
+        <input type="button" id="UpgradeButton" value="강화" onclick="Upgrade()"> 
+    </div>
+    <div class="cost">
+        <input type="text" class="in" id="Cost" value="강화 비용 | -원" disabled>
+    </div>
+    <input type="text" class="in" id="Money" value="100000원" disabled>
+    <script>
+        const Swords = ["공기", "부러진 단검", "단검", "장검", "마체테", "카타나", "삼지창", "삼지창(양손)", "황금 삼지창", "황금 단검", "황금 장검", "빗자루", "대걸레", "피묻은 검", "피쉬 검", "스네이크 검", "광선 검"];
+        Cost.value = "강화 비용 | " + (1000 + 40 * 40 * 40 / 25) + "원";
+        function Upgrade() {
+            const SwordUpgradeLogInput = document.getElementById("SwordUpgradeLog");
+            const SwordInput = document.getElementById("Sword");
+            const PercentInput = document.getElementById("Percent");
+            const CostInput = document.getElementById("Cost");
+            const SwordNum = Number(SwordInput.value.split(" ")[0].replace("+", ""));
+            const PercentNum = Number(Percent.value.split("|")[1].replace("%", ""));
+            const CostNum = Number(CostInput.value.split("|")[1].replace("원", ""));
+            const UpgradePercent = 95 - 5 * SwordNum;
+            const SwordPlus = "+" + (SwordNum + 1) + " " + Swords[SwordNum + 1];
+            const SwordMinus = "+" + (SwordNum - 1) + " " + Swords[SwordNum - 1];
+            const CostPlus = (1000 + ((40 * 40 * 40) * 1) * (SwordNum + 2) / 25);
+            const CostMinus = (1000 + ((40 * 40 * 40) * 1) * (SwordNum) / 25);
+            let SwordUpgrade = 0;
+            SwordUpgrade = Math.floor(Math.random() * 100 + 1);
+            if (0 <= SwordNum < 10) {
+                if (UpgradePercent - SwordUpgrade >= 0) {
+                    SwordUpgradeLogInput.value = "강화 성공";
+                    SwordUpgradeLogInput.style.color = "blue";
+                    SwordInput.value = SwordPlus;
+                    PercentInput.value = "강화 확률 | " + (PercentNum - 5) + "%";
+                    CostInput.value = "강화 비용 | " + CostPlus + "원";
+                } else if (UpgradePercent - SwordUpgrade < 0) {
+                    SwordUpgradeLogInput.value = "강화 실패";
+                    SwordUpgradeLogInput.style.color = "red";
+                    SwordInput.value = SwordMinus;
+                    PercentInput.value = "강화 확률 | " + (PercentNum + 5) + "%";
+                    CostInput.value = "강화 비용 | " + CostMinus + "원";
+                }
+            }
+        }
+        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+      (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+      if (document.documentElement.requestFullScreen) {
+        document.documentElement.requestFullScreen();
+      } else if (document.documentElement.mozRequestFullScreen) {
+        document.documentElement.mozRequestFullScreen();
+      } else if (document.documentElement.webkitRequestFullScreen) {
+        document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+      }
+    } else {
+      if (document.cancelFullScreen) {
+        document.cancelFullScreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.webkitCancelFullScreen) {
+        document.webkitCancelFullScreen();
+      }
+    }
+    document.getElementById("imgbutton").addEventListener("click", (e) => {
+      document.getElementById("img").style.display = "block";
+      document.getElementById("imgclose").style.display = "block";
+    })
+    document.getElementById("imgclose").addEventListener("click", (e) => {
+      document.getElementById("img").style.display = "none";
+      document.getElementById("imgclose").style.display = "none";
+    })
+    function noEvent() { // 새로 고침 방지
+      if (event.keyCode == 116) {
+        event.keyCode = 2;
+        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+          (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+          if (document.documentElement.requestFullScreen) {
+            document.documentElement.requestFullScreen();
+          } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+          } else if (document.documentElement.webkitRequestFullScreen) {
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+          }
+        } else {
+          if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+          }
+        }
+        return false;
+      } else if (event.ctrlKey
+        && (event.keyCode == 78 || event.keyCode == 82)) {
+        event.keyCode = 2;
+        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+          (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+          if (document.documentElement.requestFullScreen) {
+            document.documentElement.requestFullScreen();
+          } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+          } else if (document.documentElement.webkitRequestFullScreen) {
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+          }
+        } else {
+          if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+          }
+        }
+        return false;
+      } else if (event.keyCode == 27) {
+        event.keyCode = 2;
+        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
+          (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+          if (document.documentElement.requestFullScreen) {
+            document.documentElement.requestFullScreen();
+          } else if (document.documentElement.mozRequestFullScreen) {
+            document.documentElement.mozRequestFullScreen();
+          } else if (document.documentElement.webkitRequestFullScreen) {
+            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+          }
+        } else {
+          if (document.cancelFullScreen) {
+            document.cancelFullScreen();
+          } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+          } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+          }
+        }
+        return false;
+      }
+    }
+    document.onkeydown = noEvent;
+    </script>
+</body>
+</html>
