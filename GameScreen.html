@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>검 강화하기</title>
+    <style>
+      /* -------------- loader4 -------------- */
+      .box {
+        width: 1280px;
+        height: 720px;
+        line-height: 100%;
+      }
+
+      .loader4 {
+        position: relative;
+        width: 150px;
+        height: 50px;
+
+        top: 45%;
+        top: -webkit-calc(50% - 10px);
+        top: calc(50% - 10px);
+        left: 25%;
+        left: -webkit-calc(50% - 75px);
+        left: calc(50% - 75px);
+
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+
+      .loader4:before {
+        content: "";
+        position: absolute;
+        background-color: red;
+        top: 0px;
+        left: 0px;
+        height: 50px;
+        width: 0px;
+        z-index: 0;
+        opacity: 0.1;
+        -webkit-transform-origin: 100% 0%;
+        transform-origin: 100% 0%;
+        -webkit-animation: loader4 5s ease-in-out infinite;
+        animation: loader4 5s ease-in-out infinite;
+      }
+
+      .loader4:after {
+        content: "LOADING ...";
+        color: black;
+        font-family: Lato, "Helvetica Neue";
+        font-weight: 200;
+        font-size: 16px;
+        position: absolute;
+        width: 100%;
+        height: 50px;
+        line-height: 50px;
+        left: 0;
+        top: 0;
+      }
+
+      @-webkit-keyframes loader4 {
+        0% {
+          width: 0px;
+        }
+
+        70% {
+          width: 100%;
+          opacity: 1;
+        }
+
+        90% {
+          opacity: 0;
+          width: 100%;
+        }
+
+        100% {
+          opacity: 0;
+          width: 0px;
+        }
+      }
+
+      @keyframes loader4 {
+        0% {
+          width: 0px;
+        }
+
+        70% {
+          width: 100%;
+          opacity: 1;
+        }
+
+        90% {
+          opacity: 0;
+          width: 100%;
+        }
+
+        100% {
+          opacity: 0;
+          width: 0px;
+        }
+      }
+
+      * {
+        position: fixed;
+        text-align: center;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .in {
+        background-color: transparent;
+        border: none;
+        color: black;
+      }
+
+      #title {
+        margin: 20px 0 0 0;
+        color: red;
+      }
+
+      .SwordDiv {
+        display: inline;
+      }
+
+      #UpgradeLogDiv {
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      #UpgradeButtonDiv {
+        display: inline;
+      }
+
+      #UpgradeButton {
+        outline: none;
+        border-radius: 50%;
+        display: inline-block;
+        color: black;
+        background-color: gold;
+      }
+
+      #UpgradeButton:active {
+        transform: translateY(3px);
+        background-color: goldenrod;
+      }
+
+      #SellButton {
+        outline: none;
+        border-radius: 50%;
+        display: inline-block;
+        color: black;
+        background-color: gold;
+      }
+
+      #SellButton:active {
+        transform: translateY(3px);
+        background-color: goldenrod;
+      }
+
+      #Cost {
+        text-align: left;
+      }
+
+      #CostDiv {
+        top: 0px;
+        left: 0px;
+      }
+
+      #Money {
+        bottom: 0%;
+        left: 0px;
+        font-size: 2rem;
+        margin-bottom: 10px;
+        text-align: left;
+      }
+
+      .container {
+        overflow: hidden;
+      }
+
+      #Music {
+        right: 0px;
+        top: 0px;
+      }
+
+      #MusicPause {
+        right: 0px;
+        top: 0px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="Loading">
+      <div class="container">
+        <div class="box">
+          <div class="loader4" id="loader4"></div>
+        </div>
+      </div>
+    </div>
+    <div id="Body">
+      <select name="" id="Music" onchange="musicselect(value)">
+        <option>=== 음악 선택 ===</option>
+        <option value="0">음악 1</option>
+        <option value="1">음악 2</option>
+        <option value="2">음악 3</option>
+        <option value="3">음악 4</option>
+      </select>
+      <input
+        type="button"
+        id="MusicPause"
+        onclick="musicpause()"
+        style="display: none"
+        value="음악 선택 || 음악 끄기"
+      />
+      <div id="CostDiv">
+        <input type="text" class="in" id="Cost" value="강화 비용 | -원" disabled />
+      </div>
+      <div id="ImgDiv">
+        <img id="Img" src="" />
+      </div>
+      <div id="SwordDiv">
+        <input type="text" class="in" id="Sword" value="+0 공기" disabled />
+      </div>
+      <div id="UpgradeButtonDiv">
+        <input type="button" id="UpgradeButton" value="강화" onclick="Upgrade()" />
+      </div>
+      <div id="PercentDiv">
+        <input type="text" class="in" id="Percent" value="강화 확률 | 95%" disabled />
+      </div>
+      <div id="UpgradeLogDiv">
+        <input type="text" class="in" id="SwordUpgradeLog" value="-" disabled />
+      </div>
+      <input type="text" class="in" id="Money" value="5000000원" disabled />
+      <div>
+        <input type="button" id="SellButton" value="판매" onclick="Upgrade(0)" />
+      </div>
+      <div>
+        <input type="text" class="in" id="SellMoney" value="판매 가격 | -원" disabled />
+      </div>
+    </div>
+
+    <script>
+      // 개발자도구 방지 s = 팔기 u = 강화
+      let easteregg = 0;
+      // True False의 약자
+      let eastereggTF = 0;
+      // Percent의 약자
+      let eastereggP = 0;
+      // SellMoney의 약자
+      let eastereggS = 1;
+      // Cost의 약자
+      let eastereggC = 1;
+      document.onkeydown = function () {
+        if (event.keyCode == 123) {
+          return false;
+        }
+
+        if (event.keyCode == 83) {
+          easteregg += 1;
+          if (eastereggTF == 0) {
+            // 서준 5월생 현준 8월생 58
+            if (easteregg >= 58) {
+              eastereggTF = 1;
+              alert(
+                "이스터에그를 찾았습니다.\n강화 확률 5% 증가, 판매 금액 150% 증가, 강화 금액 150% 감소\n(한 번만 적용 됩니다.)"
+              );
+              eastereggP = 5;
+              eastereggS = 1.5;
+              eastereggC = 0.5;
+            }
+          }
+          Upgrade(0);
+        }
+
+        if (event.keyCode == 85) {
+          easteregg = 0;
+          Upgrade();
+        }
+      };
+      const musics = [
+        "https://raw.githubusercontent.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/main/Music/111%20(1).mp3",
+        "https://raw.githubusercontent.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/main/Music/71317ef3d1dad1a8.mp3",
+        "https://raw.githubusercontent.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/main/Music/Do_It.mp3",
+        "https://raw.githubusercontent.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/main/Music/Ruduboi_-_Last_Soldier.mp3",
+      ];
+      let audio;
+      function musicselect(value) {
+        audio = new Audio(musics[value]);
+        audio.volume = 0.5;
+        audio.play();
+        audio.loop = true;
+        Music.style.display = "none";
+        MusicPause.style.display = "block";
+      }
+      function musicpause() {
+        audio.pause();
+        Music.style.display = "block";
+        MusicPause.style.display = "none";
+      }
+      const WindowWidth = window.innerWidth / 2 - window.innerWidth / 4;
+      const WindowHeight = ((window.innerHeight + 1) / 2 - (window.innerHeight + 1) / 4) / 2;
+      ImgDiv.style.left = WindowWidth + "px";
+      ImgDiv.style.top = WindowHeight * 1.2 + "px";
+      SwordDiv.style.left = WindowWidth / 1.4 + "px";
+      SwordDiv.style.top = WindowHeight / 4 + "px";
+      UpgradeButtonDiv.style.left = WindowWidth * 2.7 + "px";
+      UpgradeButtonDiv.style.top = WindowHeight * 2 + "px";
+      SellButton.style.left = WindowWidth * 2.7 + "px";
+      SellButton.style.top = WindowHeight * 5 + "px";
+      PercentDiv.style.left = WindowWidth * 1.1 + "px";
+      PercentDiv.style.top = WindowHeight * 5.5 + "px";
+      UpgradeLogDiv.style.left = WindowWidth / 30 - 40 + "px";
+      UpgradeLogDiv.style.top = WindowHeight * 3 + "px";
+      SellMoney.style.left = WindowWidth * 1.1 + "px";
+      SellMoney.style.top = WindowHeight * 6.5 + "px";
+
+      Cost.style.fontSize = (WindowWidth - WindowHeight) / 6 + "px";
+      Sword.style.fontSize = (WindowWidth - WindowHeight) / 4 + "px";
+      UpgradeButton.style.fontSize = (WindowWidth - WindowHeight) / 4 + "px";
+      Percent.style.fontSize = (WindowWidth - WindowHeight) / 6 + "px";
+      SwordUpgradeLog.style.fontSize = (WindowWidth - WindowHeight) / 6 + "px";
+      Money.style.fontSize = (WindowWidth - WindowHeight) / 6 + "px";
+      SellMoney.style.fontSize = (WindowWidth - WindowHeight) / 6 + "px";
+      SellButton.style.fontSize = (WindowWidth - WindowHeight) / 4 + "px";
+
+      const Swords = [
+        "공기",
+        "부러진 단검",
+        "단검",
+        "장검",
+        "마체테",
+        "카타나",
+        "삼지창",
+        "삼지창(양손)",
+        "황금 삼지창",
+        "황금 단검",
+        "황금 장검",
+        "빗자루",
+        "대걸레",
+        "피묻은 검",
+        "피쉬 검",
+        "스네이크 검",
+        "광선 검",
+      ];
+      const Imgs = [
+        "https://github.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/blob/main/sword/0%EA%B0%95%20%EA%B3%B5%EA%B8%B0.png?raw=true",
+        "https://github.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/blob/main/sword/1%EA%B0%95%20%EB%B6%80%EB%9F%AC%EC%A7%84%20%EB%8B%A8%EA%B2%80.png?raw=true",
+        "https://github.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/blob/main/sword/2%EA%B0%95%20%EB%8B%A8%EA%B2%80.png?raw=true",
+        "https://github.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/blob/main/sword/3%EA%B0%95%20%EC%9E%A5%EA%B2%80.png?raw=true",
+        "https://github.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/blob/main/sword/4%EA%B0%95%20%EB%A7%88%EC%B2%B4%ED%85%8C.png?raw=true",
+        "https://github.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/blob/main/sword/5%EA%B0%95%20%EC%B9%B4%ED%83%80%EB%82%98.png?raw=true",
+        "https://github.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/blob/main/sword/6%EA%B0%95%20%EC%82%BC%EC%A7%80%EC%B0%BD.png?raw=true",
+        "https://github.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/blob/main/sword/7%EA%B0%95%20%EC%96%91%EC%86%90%20%EC%82%BC%EC%A7%80%EC%B0%BD.png?raw=true",
+        "https://github.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/blob/main/sword/8%EA%B0%95%20%ED%99%A9%EA%B8%88%20%EC%82%BC%EC%A7%80%EC%B0%BD.png?raw=true",
+        "https://github.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/blob/main/sword/9%EA%B0%95%20%ED%99%A9%EA%B8%88%20%EB%8B%A8%EA%B2%80.png?raw=true",
+        "https://github.com/MSeoJun/OnlyJavascript_SwardUpgradeGame/blob/main/sword/10%EA%B0%95%20%ED%99%A9%EA%B8%88%20%EA%B2%80.png?raw=true",
+      ];
+      Img.src = Imgs[1];
+      Img.width = WindowWidth * 1.5;
+      Img.height = WindowHeight * 4;
+      UpgradeButton.style.width = WindowWidth / 1.8 + "px";
+      UpgradeButton.style.height = WindowHeight * 2 + "px";
+      SellButton.style.width = WindowWidth / 1.8 + "px";
+      SellButton.style.height = WindowHeight * 2 + "px";
+      Body.style.display = "none";
+      let i = 0;
+      const ReloadImg = setInterval(() => {
+        Img.src = Imgs[i];
+        i++;
+        if (i == Imgs.length) {
+          i = 0;
+          clearInterval(ReloadImg);
+          Img.src = Imgs[i];
+          Img.style.display = "inline";
+          Img.width = "500";
+          Img.height = "500";
+          Body.style.display = "block";
+          Loading.style.display = "none";
+        }
+      }, 20 * Imgs.length);
+      Cost.value = "강화 비용 | " + (1000 + (140 * 140 * 140) / 25) / 10 + "원";
+      SellMoney.value = "판매 가격 | 0원";
+      let UpgradePercentNum = 0;
+
+      function Upgrade(value) {
+        const CostInput = document.getElementById("Cost");
+        const MoneyInput = document.getElementById("Money");
+        const SwordUpgradeLogInput = document.getElementById("SwordUpgradeLog");
+        const SwordInput = document.getElementById("Sword");
+        const PercentInput = document.getElementById("Percent");
+
+        const SwordNum = Number(SwordInput.value.split(" ")[0].replace("+", ""));
+        const PercentNum = Number(Percent.value.split("|")[1].replace("%", ""));
+        const CostNum = Number(CostInput.value.split("|")[1].replace("원", ""));
+        const UpgradePercents = [
+          "95",
+          "90",
+          "85",
+          "80",
+          "75",
+          "70",
+          "65",
+          "60",
+          "55",
+          "45",
+          "35",
+          "30",
+          "30",
+          "30",
+          "30",
+          "30",
+          "30",
+          "30",
+          "30",
+          "30",
+          "30",
+          "30",
+          "3",
+          "2",
+          "1",
+        ];
+        const SwordPlus = "+" + (SwordNum + 1) + " " + Swords[SwordNum + 1];
+        const SwordMinus = "+" + (SwordNum - 1) + " " + Swords[SwordNum - 1];
+        const CostPlus = (1000 + (140 * 140 * 140 * (SwordNum + 2)) / 25) / 10;
+        const CostSell = (1000 + (140 * 140 * 140 * (SwordNum + 1)) / 25) / 10;
+        const CostMinus = (1000 + (140 * 140 * 140 * SwordNum) / 25) / 10;
+        if (value == 0) {
+          if (SwordNum != 0) {
+            Money.value =
+              Number(Money.value.split("원")[0]) + Math.floor(CostSell * ((SwordNum + 1) * 1.2) * eastereggS) + "원";
+          }
+
+          SwordInput.value = "+" + value + " " + Swords[value];
+          Img.src = Imgs[value];
+          Percent.value = "강화 확률 | " + (Number(UpgradePercents[value]) + eastereggP) + "%";
+          UpgradePercentNum = 0;
+          CostInput.value = "강화 비용 | " + ((1000 + (140 * 140 * 140) / 25) / 10) * eastereggC + "원";
+          SellMoney.value = "판매 가격 | 0원";
+          SwordUpgradeLogInput.value = "-";
+          SwordUpgradeLogInput.style.color = "black";
+        } else {
+          if (Number(Money.value.split("원")[0]) >= Cost.value.split("|")[1].replace("원", "")) {
+            let SwordUpgrade = 0;
+            SwordUpgrade = Math.floor(Math.random() * 100 + 1);
+            MoneyInput.value = Number(MoneyInput.value.split("원")[0]) - Number(CostNum) + "원";
+            if (Number(UpgradePercents[UpgradePercentNum]) + eastereggP - SwordUpgrade >= 0) {
+              SwordUpgradeLogInput.value = "강화 성공";
+              SwordUpgradeLogInput.style.color = "blue";
+              SwordInput.value = SwordPlus;
+              UpgradePercentNum += 1;
+              PercentInput.value = "강화 확률 | " + (Number(UpgradePercents[UpgradePercentNum]) + eastereggP) + "%";
+              CostInput.value = "강화 비용 | " + CostPlus * eastereggC + "원";
+              Img.src = Imgs[SwordNum + 1];
+              SellMoney.value = "판매 가격 | " + Math.floor(CostPlus * ((SwordNum + 2) * 1.2) * eastereggS) + "원";
+            } else if (Number(UpgradePercents[UpgradePercentNum]) + eastereggP - SwordUpgrade < 0) {
+              SwordUpgradeLogInput.value = "강화 실패";
+              SwordUpgradeLogInput.style.color = "red";
+              if (SwordNum % 5 != 0) {
+                SwordInput.value = SwordMinus;
+                UpgradePercentNum -= 1;
+                PercentInput.value = "강화 확률 | " + (Number(UpgradePercents[UpgradePercentNum]) + eastereggP) + "%";
+                CostInput.value = "강화 비용 | " + CostMinus * eastereggC + "원";
+                Img.src = Imgs[SwordNum - 1];
+                SellMoney.value = "판매 가격 | " + Math.floor(CostMinus * (SwordNum * 1.2) * eastereggS) + "원";
+              }
+              if (SwordNum == 0) {
+                SellMoney.value = "판매 가격 | 0원";
+              }
+            }
+            Img.width = WindowWidth * 1.5;
+            Img.height = WindowHeight * 4;
+          } else {
+            alert("돈이 부족합니다.");
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
