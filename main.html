@@ -1,207 +1,208 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>검 강화하기</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>검 강화하기 메인화면</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-        }
-        input {
-            text-align: center;
-        }
+      * {
+        font-family: "둥근모꼴";
+      }
 
-        .in {
-            background-color: transparent;
-            border: none;
-            color: black;
-        }
+      body {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color: black;
+      }
 
-        #title {
-            text-align: center;
-            margin: 20px 0 0 0;
-            color: red;
-        }
+      /* 게임 제목 스타일 */
+      #title {
+        color: white;
+        font-size: 4rem;
+        margin: 30px 0 0 30px;
+      }
 
-        .img {
-            text-align: center;
-        }
+      /* 게임방법 팝업창 스타일 */
+      #rolepop {
+        background-color: white;
+        width: 40%;
+        height: 80vh;
+        position: fixed;
+        top: 10.5%;
+        left: 29.5%;
+        border-radius: 2%;
+        display: none;
+      }
+      #roletitle {
+        margin: 70px 0 50px 0;
+        font-size: 3rem;
+      }
+      .roledesc {
+        font-size: 1.5rem;
+        margin-bottom: 4rem;
+      }
+      #rolenotice {
+        color: red;
+        font-size: 2rem;
+      }
+      #roleclose {
+        margin: 20px 40px 0 0;
+        font-size: 35px;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+      }
 
-        #Sword {
-            font-size: 2.5rem;
-        }
+      #startclose {
+        margin: 20px 40px 0 0;
+        font-size: 35px;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+      }
 
-        .SwordDiv {
-            text-align: center;
-        }
+      /* 메인화면 시작버튼과 방법버튼 */
+      .mainbtm {
+        background-color: white;
+        border: 1px solid black;
+        width: 20%;
+        height: 20vh;
+        cursor: pointer;
+        outline: none;
+        font-size: 25px;
+      }
+      .mainbtm:hover {
+        background-color: gray;
+      }
 
-        .UpgradeLog {
-            text-align: center;
-            margin-top: 10px;
-        }
+      /* 시작버튼 */
+      #start {
+        position: fixed;
+        top: 20%;
+        right: 7%;
+      }
 
-        .UpgradeBtn {
-            text-align: center;
-            margin-top: 10px;
-        }
+      #startpop {
+        background-color: white;
+        width: 40%;
+        height: 80vh;
+        position: fixed;
+        top: 10.5%;
+        left: 29.5%;
+        border-radius: 2%;
+        display: none;
+      }
 
-        #Money {
-            position: fixed;
-            bottom: 0%;
-            right: 82%;
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
+      /* 방법버튼 */
+      #role {
+        position: fixed;
+        top: 50%;
+        right: 7%;
+      }
+
+      #resolutions {
+        position: fixed;
+        top: 20%;
+        left: 42%;
+        font-size: 20px;
+        /* display: none; */
+      }
     </style>
-</head>
-<body>
-    <h1 id="title">검 강화하기!!</h1>
-    <div class="img">
-        <img src="./sword/1강 부러진 단검.png">
+  </head>
+  <body id="Body">
+    <h1 id="title">검 강화하기</h1>
+    <button class="mainbtm" id="start" onclick="start()">게임시작</button>
+    <div id="startpop">
+      <p id="startclose">X</p>
+      <!-- 해상도 고르는 옵션 -->
+      <select id="resolutions" onchange="pop(value)">
+        <option>======= 선택 =======</option>
+        <option class="resolution" value="QVGA">320×240 (QVGA)</option>
+        <option class="resolution" value="VGA">640×480 (VGA)</option>
+        <option class="resolution" value="SD">720×480 (SD)</option>
+        <option class="resolution" value="XGA">1024×768 (XGA)</option>
+        <option class="resolution" value="HD">1280×720 (HD)</option>
+        <option class="resolution" value="HD+">1600×900 (HD+)</option>
+        <option class="resolution" value="FHD">1920×1080 (FHD)</option>
+        <option class="resolution" value="QHD">2560×1440 (QHD)</option>
+      </select>
     </div>
-    <div class="SwordDiv">
-        <input type="text" class="in" id="Sword" value="+0 공기" disabled>
+    <button class="mainbtm" id="role" onclick="role()">게임방법</button>
+    <!-- 게임방법 팝업창 -->
+    <div id="rolepop">
+      <p id="roleclose">X</p>
+      <center>
+        <h1 id="roletitle">게임방법!!</h1>
+        <p class="roledesc">1. 강화하기 버튼을 눌러 검을 강화하세요.</p>
+        <p class="roledesc">2. 강화한 검을 팔아 돈을 벌어요.</p>
+        <p id="rolenotice">주의!!</p>
+        <p class="roledesc">돈을 전부 소진하면 게임진행이 불가능 합니다!</p>
+        <b style="font-size: 20px">로딩 활성화</b>
+        <b>ON</b><input type="radio" id="" name="loadbtn" value="on" checked="checked" /> <b>OFF</b
+        ><input type="radio" id="" name="loadbtn" value="off" />
+      </center>
     </div>
-    <div class="UpgradeLog">
-        <input type="text" class="in" id="SwordUpgradeLog" value="-" disabled>
-    </div>
-    <input type="text" class="in" id="Percent" value="강화 확률 | 100%" disabled>
-    <div class="UpgradeBtn">
-        <input type="button" id="UpgradeButton" value="강화" onclick="Upgrade()"> 
-    </div>
-    <div class="cost">
-        <input type="text" class="in" id="Cost" value="강화 비용 | -원" disabled>
-    </div>
-    <input type="text" class="in" id="Money" value="100000원" disabled>
+
     <script>
-        const Swords = ["공기", "부러진 단검", "단검", "장검", "마체테", "카타나", "삼지창", "삼지창(양손)", "황금 삼지창", "황금 단검", "황금 장검", "빗자루", "대걸레", "피묻은 검", "피쉬 검", "스네이크 검", "광선 검"];
-        Cost.value = "강화 비용 | " + (1000 + 40 * 40 * 40 / 25) + "원";
-        function Upgrade() {
-            const SwordUpgradeLogInput = document.getElementById("SwordUpgradeLog");
-            const SwordInput = document.getElementById("Sword");
-            const PercentInput = document.getElementById("Percent");
-            const CostInput = document.getElementById("Cost");
-            const SwordNum = Number(SwordInput.value.split(" ")[0].replace("+", ""));
-            const PercentNum = Number(Percent.value.split("|")[1].replace("%", ""));
-            const CostNum = Number(CostInput.value.split("|")[1].replace("원", ""));
-            const UpgradePercent = 95 - 5 * SwordNum;
-            const SwordPlus = "+" + (SwordNum + 1) + " " + Swords[SwordNum + 1];
-            const SwordMinus = "+" + (SwordNum - 1) + " " + Swords[SwordNum - 1];
-            const CostPlus = (1000 + ((40 * 40 * 40) * 1) * (SwordNum + 2) / 25);
-            const CostMinus = (1000 + ((40 * 40 * 40) * 1) * (SwordNum) / 25);
-            let SwordUpgrade = 0;
-            SwordUpgrade = Math.floor(Math.random() * 100 + 1);
-            if (0 <= SwordNum < 10) {
-                if (UpgradePercent - SwordUpgrade >= 0) {
-                    SwordUpgradeLogInput.value = "강화 성공";
-                    SwordUpgradeLogInput.style.color = "blue";
-                    SwordInput.value = SwordPlus;
-                    PercentInput.value = "강화 확률 | " + (PercentNum - 5) + "%";
-                    CostInput.value = "강화 비용 | " + CostPlus + "원";
-                } else if (UpgradePercent - SwordUpgrade < 0) {
-                    SwordUpgradeLogInput.value = "강화 실패";
-                    SwordUpgradeLogInput.style.color = "red";
-                    SwordInput.value = SwordMinus;
-                    PercentInput.value = "강화 확률 | " + (PercentNum + 5) + "%";
-                    CostInput.value = "강화 비용 | " + CostMinus + "원";
-                }
-            }
+      // 배경 이미지들
+      const imgs = [
+        "https://a-static.besthdwallpaper.com/majimag-manyeo-sanyangggun-hwajaee-geom-byeogji-1920x1200-15642_6.jpg",
+        "https://i.pinimg.com/originals/52/d1/af/52d1af9e20c6a48f5a887632c2deab4b.jpg",
+        "https://p4.wallpaperbetter.com/wallpaper/591/739/594/tools-work-blacksmith-mallet-wallpaper-preview.jpg",
+      ];
+      Body.style.backgroundImage = "url(" + imgs[Math.floor(Math.random() * 3)] + ")";
+      const resolutions = ["QVGA", "VGA", "SD", "XGA", "HD", "HD+", "FHD", "QHD"];
+      const resolutionwidth = [320, 640, 720, 1024, 1280, 1600, 1920, 2560];
+      const resolutionheight = [240, 480, 480, 768, 720, 900, 1080, 1440];
+      let popupWidth = 0;
+      let popupHeight = 0;
+      for (let i = 0; i < 8; i++) {
+        if (window.screen.width <= resolutionwidth[i] && window.screen.height <= resolutionheight[i]) {
+          document.getElementsByClassName("resolution")[i].style.display = "none";
+          document.getElementsByClassName("resolution")[i - 1].innerHTML += " *권장";
         }
-        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
-      (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-      if (document.documentElement.requestFullScreen) {
-        document.documentElement.requestFullScreen();
-      } else if (document.documentElement.mozRequestFullScreen) {
-        document.documentElement.mozRequestFullScreen();
-      } else if (document.documentElement.webkitRequestFullScreen) {
-        document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
       }
-    } else {
-      if (document.cancelFullScreen) {
-        document.cancelFullScreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.webkitCancelFullScreen) {
-        document.webkitCancelFullScreen();
+      function pop(resolution) {
+        for (let i = 0; i < resolutions.length; i++) {
+          if (resolution == resolutions[i]) {
+            popupWidth = resolutionwidth[i];
+            popupHeight = resolutionheight[i];
+          }
+        }
+        const popupX = window.screen.width / 2 - popupWidth / 2;
+        const popupY = window.screen.height / 2 - popupHeight / 2;
+        window.open(
+          "http://v1.swordupgrade.kro.kr/",
+          "검 강화하기",
+          "height=" +
+            popupHeight +
+            ", width=" +
+            popupWidth +
+            ", left=" +
+            popupX +
+            ", top=" +
+            "popupY, esizable = no, scrollbars = no, toolbar = no, menubar = no, status=no, location = no"
+        );
+        window.location.reload();
       }
-    }
-    document.getElementById("imgbutton").addEventListener("click", (e) => {
-      document.getElementById("img").style.display = "block";
-      document.getElementById("imgclose").style.display = "block";
-    })
-    document.getElementById("imgclose").addEventListener("click", (e) => {
-      document.getElementById("img").style.display = "none";
-      document.getElementById("imgclose").style.display = "none";
-    })
-    function noEvent() { // 새로 고침 방지
-      if (event.keyCode == 116) {
-        event.keyCode = 2;
-        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
-          (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-          if (document.documentElement.requestFullScreen) {
-            document.documentElement.requestFullScreen();
-          } else if (document.documentElement.mozRequestFullScreen) {
-            document.documentElement.mozRequestFullScreen();
-          } else if (document.documentElement.webkitRequestFullScreen) {
-            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-          }
-        } else {
-          if (document.cancelFullScreen) {
-            document.cancelFullScreen();
-          } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-          } else if (document.webkitCancelFullScreen) {
-            document.webkitCancelFullScreen();
-          }
-        }
-        return false;
-      } else if (event.ctrlKey
-        && (event.keyCode == 78 || event.keyCode == 82)) {
-        event.keyCode = 2;
-        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
-          (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-          if (document.documentElement.requestFullScreen) {
-            document.documentElement.requestFullScreen();
-          } else if (document.documentElement.mozRequestFullScreen) {
-            document.documentElement.mozRequestFullScreen();
-          } else if (document.documentElement.webkitRequestFullScreen) {
-            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-          }
-        } else {
-          if (document.cancelFullScreen) {
-            document.cancelFullScreen();
-          } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-          } else if (document.webkitCancelFullScreen) {
-            document.webkitCancelFullScreen();
-          }
-        }
-        return false;
-      } else if (event.keyCode == 27) {
-        event.keyCode = 2;
-        if ((document.fullScreenElement && document.fullScreenElement !== null) ||
-          (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-          if (document.documentElement.requestFullScreen) {
-            document.documentElement.requestFullScreen();
-          } else if (document.documentElement.mozRequestFullScreen) {
-            document.documentElement.mozRequestFullScreen();
-          } else if (document.documentElement.webkitRequestFullScreen) {
-            document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-          }
-        } else {
-          if (document.cancelFullScreen) {
-            document.cancelFullScreen();
-          } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-          } else if (document.webkitCancelFullScreen) {
-            document.webkitCancelFullScreen();
-          }
-        }
-        return false;
+
+      // 게임방법 팝업창 띄우기
+      function role() {
+        rolepop.style.display = "inline";
       }
-    }
-    document.onkeydown = noEvent;
+
+      function start() {
+        startpop.style.display = "inline";
+      }
+
+      // 닫기 버튼 누를때 게임방법 팝업창 없애기
+      document.getElementById("roleclose").addEventListener("click", (e) => {
+        document.getElementById("rolepop").style.display = "none";
+      });
+
+      document.getElementById("startclose").addEventListener("click", (e) => {
+        document.getElementById("startpop").style.display = "none";
+      });
     </script>
-</body>
+  </body>
 </html>
